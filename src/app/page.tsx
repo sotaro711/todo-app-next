@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { TodoList } from "./components/TodoList";
 import { TodoInput } from "./components/TodoInput";
+import { useEffect } from "react";
+import { supabase } from "./lib/supabase";
+import { log } from "console";
 
 export type Todo = {
   id: number;
@@ -13,6 +16,20 @@ export type Todo = {
 export default function App() {
   const [text, setText] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    async function loadTodos() {
+      const { data, error } = await supabase.from("todos").select("*");
+      if (error) {
+        console.log("データ取得エラー", data);
+      } else {
+        console.log("Supabaseからデータ取得", data);
+        setTodos(data ?? []);
+      }
+    }
+
+    loadTodos();
+  }, []);
 
   // 追加ボタンを押したらtodos配列が更新
   function addTodo() {
