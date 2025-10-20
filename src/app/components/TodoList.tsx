@@ -1,4 +1,4 @@
-import { Todo } from "../page";
+import { Todo } from "./TodoApp";
 import { TodoItem } from "./TodoItem";
 
 type TodoListProps = {

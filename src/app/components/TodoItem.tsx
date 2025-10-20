@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Todo } from "../page";
+import { Todo } from "./TodoApp";
 
 type TodoItemProps = {
   todo: Todo;
