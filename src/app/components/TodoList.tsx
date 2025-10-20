@@ -21,9 +21,9 @@ export function TodoList(props: TodoListProps) {
             <TodoItem
               key={todo.id}
               todo={todo}
-              onToggle={onToggle}
-              onDelete={onDelete}
-              onEdit={onEdit}
+              onToggle={() => onToggle?.(todo.id)}
+              onDelete={() => onDelete(todo.id)}
+              onEdit={(id, newText) => onEdit(todo.id, newText)}
             />
           );
         })}

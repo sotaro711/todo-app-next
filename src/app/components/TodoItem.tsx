@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { Todo } from "./TodoApp";
 
 type TodoItemProps = {
@@ -61,7 +63,13 @@ export function TodoItem(props: TodoItemProps) {
             >
               削除
             </button>
-            <button onClick={() => setEditing(true)}>編集</button>
+            <button
+              onClick={() => {
+                setEditing(true);
+              }}
+            >
+              編集
+            </button>
           </div>
         </div>
       )}

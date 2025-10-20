@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 type TodoInputProps = {
   text: string;
   setText: (value: string) => void;
+  //　ボタンをクリックするだけなので何も返す必要はない
   onAdd: () => void;
 };
 

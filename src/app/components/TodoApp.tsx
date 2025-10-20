@@ -34,7 +34,7 @@ export default function TodoApp() {
 
   const deleteMutation = useMutation({
     mutationFn: deleteTodo,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todo"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 
   const toggleMutation = useMutation({
@@ -49,12 +49,12 @@ export default function TodoApp() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 
-  function handleEdit(id: number, newText: string) {
-    if (!newText.trim()) return;
-    editMutation.mutate({ id, newText });
-  }
+  // function handleEdit(id: number, newText: string) {
+  //   if (!newText.trim()) return;
+  //   editMutation.mutate({ id, newText });
+  // }
 
-  if (isLoading) return <p>読み込み中...</p>;
+  // if (isLoading) return <p>読み込み中...</p>;
 
   return (
     <div className="max-w-[700px] mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
@@ -76,14 +76,14 @@ export default function TodoApp() {
         todos={todos.filter((t) => !t.done)}
         onDelete={(id) => deleteMutation.mutate(id)}
         onToggle={(id) => toggleMutation.mutate({ id, done: true })}
-        onEdit={handleEdit}
+        onEdit={(id, newText) => editMutation.mutate({ id, newText })}
       />
       {/* 完了のリスト */}
       <TodoList
         title={"完了"}
         todos={todos.filter((t) => t.done)}
         onDelete={(id) => deleteMutation.mutate(id)}
-        onEdit={handleEdit}
+        onEdit={(id, newText) => editMutation.mutate({ id, newText })}
       />
     </div>
   );
