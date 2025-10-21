@@ -1,4 +1,8 @@
+"use server";
+
 import { Todo } from "../components/TodoApp";
+import { Database, TodosTable, TodoUpdate } from "../types";
+import { db } from "./database";
 import { supabase } from "./supabase";
 
 export async function getTodos(): Promise<Todo[]> {
@@ -11,25 +15,25 @@ export async function getTodos(): Promise<Todo[]> {
 }
 
 export async function addTodo(text: string) {
-  const { error } = await supabase.from("todos").insert({ text, done: false });
-  if (error) throw error;
+  return await db
+    .insertInto("todos")
+    .values({ text, done: false })
+    .returningAll()
+    .executeTakeFirstOrThrow();
 }
 
 export async function deleteTodo(id: number) {
-  const { error } = await supabase.from("todos").delete().eq("id", id);
-  if (error) throw error;
+  return await db
+    .deleteFrom("todos")
+    .where("id", "=", id)
+    .returningAll()
+    .executeTakeFirstOrThrow();
 }
 
-export async function toggleTodo(id: number, done: boolean) {
-  const { error } = await supabase.from("todos").update({ done }).eq("id", id);
-  if (error) throw error;
-}
-
-export async function editTodo(id: number, newText: string) {
-  const { error } = await supabase
-    .from("todos")
-    .update({ text: newText })
-    .eq("id", id)
-    .select();
-  if (error) throw error;
+export async function editTodo(id: number, updateWith: TodoUpdate) {
+  return await db
+    .updateTable("todos")
+    .set(updateWith)
+    .where("id", "=", id)
+    .execute();
 }

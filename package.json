@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@prisma/client": "^6.17.1",
     "@supabase/postgrest-js": "^2.75.0",
     "@supabase/supabase-js": "^2.75.0",
     "@tanstack/react-query": "^5.90.5",
@@ -25,7 +26,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
+    "kysely-codegen": "^0.19.0",
+    "kysely-supabase": "^0.2.1",
     "postcss": "^8.5.6",
+    "prisma": "^6.17.1",
     "tailwindcss": "^3.4.18",
     "typescript": "^5"
   }

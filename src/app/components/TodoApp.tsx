@@ -9,7 +9,6 @@ import {
   deleteTodo,
   editTodo,
   getTodos,
-  toggleTodo,
 } from "../lib/supabase.Action";
 
 export type Todo = {
@@ -22,7 +21,7 @@ export default function TodoApp() {
   const queryClient = useQueryClient();
   const [text, setText] = useState("");
 
-  const { data: todos = [], isLoading } = useQuery({
+  const { data: todos = [] } = useQuery({
     queryKey: ["todos"],
     queryFn: getTodos,
   });
@@ -39,13 +38,13 @@ export default function TodoApp() {
 
   const toggleMutation = useMutation({
     mutationFn: ({ id, done }: { id: number; done: boolean }) =>
-      toggleTodo(id, done),
+      editTodo(id, { done: false }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 
   const editMutation = useMutation({
     mutationFn: ({ id, newText }: { id: number; newText: string }) =>
-      editTodo(id, newText),
+      editTodo(id, { text: newText }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 

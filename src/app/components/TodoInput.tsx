@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
-
 type TodoInputProps = {
   text: string;
   setText: (value: string) => void;
