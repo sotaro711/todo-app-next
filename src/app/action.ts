@@ -1,17 +1,12 @@
 "use server";
 
-import { Todo } from "../components/TodoApp";
-import { Database, TodosTable, TodoUpdate } from "../types";
-import { db } from "./database";
-import { supabase } from "./supabase";
+import { Todo } from "./components/TodoApp";
+import { TodoUpdate } from "./lib/db/types";
+import { db } from "./lib/db/kysely";
+import { supabase } from "./lib/db/supabase";
 
 export async function getTodos(): Promise<Todo[]> {
-  const { data, error } = await supabase
-    .from("todos")
-    .select("*")
-    .order("id", { ascending: true });
-  if (error) throw error;
-  return data ?? [];
+  return await db.selectFrom("todos").selectAll().execute();
 }
 
 export async function addTodo(text: string) {
@@ -35,5 +30,6 @@ export async function editTodo(id: number, updateWith: TodoUpdate) {
     .updateTable("todos")
     .set(updateWith)
     .where("id", "=", id)
-    .execute();
+    .returningAll()
+    .executeTakeFirstOrThrow();
 }
