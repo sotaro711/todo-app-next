@@ -4,12 +4,7 @@ import { useEffect, useState } from "react";
 import { TodoInput } from "./TodoInput";
 import { TodoList } from "./TodoList";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addTodo,
-  deleteTodo,
-  editTodo,
-  getTodos,
-} from "../lib/supabase.Action";
+import { addTodo, deleteTodo, editTodo, getTodos } from "../action";
 
 export type Todo = {
   id: number;
@@ -37,8 +32,7 @@ export default function TodoApp() {
   });
 
   const toggleMutation = useMutation({
-    mutationFn: ({ id, done }: { id: number; done: boolean }) =>
-      editTodo(id, { done: false }),
+    mutationFn: ({ id }: { id: number }) => editTodo(id, { done: true }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 
@@ -67,7 +61,7 @@ export default function TodoApp() {
         title={"未完了"}
         todos={todos.filter((t) => !t.done)}
         onDelete={(id) => deleteMutation.mutate(id)}
-        onToggle={(id) => toggleMutation.mutate({ id, done: true })}
+        onToggle={(id) => toggleMutation.mutate({ id })}
         onEdit={(id, newText) => editMutation.mutate({ id, newText })}
       />
       {/* 完了のリスト */}
