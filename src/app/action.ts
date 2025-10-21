@@ -3,7 +3,6 @@
 import { Todo } from "./components/TodoApp";
 import { TodoUpdate } from "./lib/db/types";
 import { db } from "./lib/db/kysely";
-import { supabase } from "./lib/db/supabase";
 
 export async function getTodos(): Promise<Todo[]> {
   return await db.selectFrom("todos").selectAll().execute();
