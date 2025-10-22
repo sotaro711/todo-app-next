@@ -5,7 +5,7 @@ import { Todo } from "./TodoApp";
 
 type TodoItemProps = {
   todo: Todo;
-  onToggle?: (id: number) => void;
+  onToggle?: (id: number, done: boolean) => void;
   onDelete: (id: number) => void;
   onEdit: (id: number, newText: string) => void;
 };
@@ -14,6 +14,7 @@ export function TodoItem(props: TodoItemProps) {
   const { todo, onToggle, onDelete, onEdit } = props;
   const [isEditing, setEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
+
   return (
     <li className="flex justify-start items-center py-1.5 border-b border-gray-200 last:border-b-0 gap-2">
       {isEditing ? (
@@ -51,10 +52,18 @@ export function TodoItem(props: TodoItemProps) {
           <div className="flex gap-2">
             {!todo.done && (
               <button
-                onClick={() => onToggle?.(todo.id)}
+                onClick={() => onToggle?.(todo.id, todo.done)}
                 className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition"
               >
                 完了
+              </button>
+            )}
+            {todo.done && (
+              <button
+                onClick={() => onToggle?.(todo.id, todo.done)}
+                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
+              >
+                戻す
               </button>
             )}
             <button

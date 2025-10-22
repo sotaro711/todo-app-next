@@ -32,7 +32,8 @@ export default function TodoApp() {
   });
 
   const toggleMutation = useMutation({
-    mutationFn: ({ id }: { id: number }) => editTodo(id, { done: true }),
+    mutationFn: ({ id, done }: { id: number; done: boolean }) =>
+      editTodo(id, { done: !done }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 
@@ -61,7 +62,7 @@ export default function TodoApp() {
         title={"未完了"}
         todos={todos.filter((t) => !t.done)}
         onDelete={(id) => deleteMutation.mutate(id)}
-        onToggle={(id) => toggleMutation.mutate({ id })}
+        onToggle={(id, done) => toggleMutation.mutate({ id, done })}
         onEdit={(id, newText) => editMutation.mutate({ id, newText })}
       />
       {/* 完了のリスト */}
@@ -69,6 +70,7 @@ export default function TodoApp() {
         title={"完了"}
         todos={todos.filter((t) => t.done)}
         onDelete={(id) => deleteMutation.mutate(id)}
+        onToggle={(id, done) => toggleMutation.mutate({ id, done })}
         onEdit={(id, newText) => editMutation.mutate({ id, newText })}
       />
     </div>
