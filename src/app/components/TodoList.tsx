@@ -4,7 +4,7 @@ import { TodoItem } from "./TodoItem";
 type TodoListProps = {
   title: string;
   todos: Todo[];
-  onToggle?: (id: number) => void;
+  onToggle?: (id: number, done: boolean) => void;
   onDelete: (id: number) => void;
   onEdit: (id: number, newText: string) => void;
 };
@@ -21,7 +21,7 @@ export function TodoList(props: TodoListProps) {
             <TodoItem
               key={todo.id}
               todo={todo}
-              onToggle={() => onToggle?.(todo.id)}
+              onToggle={() => onToggle?.(todo.id, todo.done)}
               onDelete={() => onDelete(todo.id)}
               onEdit={(id, newText) => onEdit(todo.id, newText)}
             />
